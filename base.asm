@@ -8,7 +8,9 @@ rules   db "Welcome to the Tic Tac Toe game", 13, 10
 		db "each player in turn will choose a slot marked with the numbers 1-9 as you will see shortly", 13, 10
 		db "this is a game for two players ", 13, 10
 		db "the winner is the one who makes three in a row ", 13, 10
-		db "pay attention, you must not click on the same slot twice ,press any key to start ", 13, 10,'$'
+		db "pay attention, you must not click on the same slot twice ,press any key to start ", 13, 10
+		db "you need to duble click the number you choose, just to make sure(: ", 13, 10
+		db "when you win you wont know it , only when your opponent try to play, then you recive the massege" ,13,10,'$'
 
 drewing db 0
 output_1 db '1','2','3'
@@ -62,7 +64,6 @@ proc finish_game
 	sub al , 30h
 	jmp exit
 endp finish_game
-
 proc congrats_you_win
 	mov dx, offset youwin
 	mov ah,9h

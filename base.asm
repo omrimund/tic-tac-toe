@@ -4,6 +4,12 @@ stack 100h
 DATASEG
 turnwho db 0
 num db 0
+rules   db "Welcome to the Tic Tac Toe game", 13, 10
+		db "each player in turn will choose a slot marked with the numbers 1-9 as you will see shortly", 13, 10
+		db "this is a game for two players ", 13, 10
+		db "the winner is the one who makes three in a row ", 13, 10
+		db "pay attention, you must not click on the same slot twice ,press any key to start ", 13, 10,'$'
+
 drewing db 0
 output_1 db '1','2','3'
 output_2 db '4','5','6'
@@ -251,6 +257,12 @@ endp print_board
 start:
 mov ax,@data
 mov ds,ax
+mov ah, 9h
+mov dx,offset rules
+int 21h
+mov ah, 0h
+int 16h
+
 mov ah, 9h
 mov dx,offset game_num
 int 21h

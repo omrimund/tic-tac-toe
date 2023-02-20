@@ -3,7 +3,6 @@ model small
 stack 100h
 DATASEG
 turnwho db 0
-num db 0
 rules   db "Welcome to the Tic Tac Toe game", 13, 10
 		db "each player in turn will choose a slot marked with the numbers 1-9 as you will see shortly", 13, 10
 		db "this is a game for two players ", 13, 10
@@ -11,7 +10,6 @@ rules   db "Welcome to the Tic Tac Toe game", 13, 10
 		db "pay attention, you must not click on the same slot twice ,press any key to start ", 13, 10
 		db "you need to duble click the number you choose, just to make sure(: ", 13, 10
 		db "when you win you wont know it , only when your opponent try to play, then you recive the massege" ,13,10,'$'
-
 drewing db 0
 output_1 db '1','2','3'
 output_2 db '4','5','6'
@@ -21,22 +19,13 @@ youwin1   db 'press any key to leave',13,10,'$'
 noone   db 'drew,press any key to leave',13,10,'$'
 the_chosen_one db 0
 game_draw   db " | | |", 13, 10
-			db " | | |", 13, 10
-			db " | | |", 13, 10
+			db "  | | |", 13, 10
+			db "  | | |", 13, 10
 			db 'pick a number between 1 to 9',13,10,'$'
 game_num 	db "|1|2|3|", 13, 10
 			db "|4|5|6|", 13, 10
 			db "|7|8|9|", 13, 10
 			db 'pick a number between 1 to 9',13,10,'$'
-check2 db 0
-check3 db 0
-check4 db 0
-check5 db 0
-check6 db 0
-check7 db 0
-check8 db 0
-check9 db 0
-check1 db 0
 CODESEG
 
 proc reciving_number
@@ -163,14 +152,14 @@ jmp L3
 endp turn
 proc print_8
 	inc drewing
-	mov [game_draw+18] , bl
+	mov [game_draw+20], bl
 	mov [output_3 + 1] , bl
 	call print_board
 	call check_winner
 endp print_8
 proc print_9
 	inc drewing
-	mov [game_draw+20] , bl
+	mov [game_draw+22] , bl
 	mov [output_3 + 2] , bl
 	call print_board
 	call check_winner
@@ -220,28 +209,28 @@ proc print_3
 endp print_3
 proc print_4
 	inc drewing
-	mov [game_draw+8] , bl
+	mov [game_draw+9] , bl
 	mov [output_2] , bl
 	call print_board
 	call check_winner
 endp print_4
 proc print_5
 	inc drewing
-	mov [game_draw+10] , bl
+	mov [game_draw+11] , bl
 	mov [output_2 + 1] , bl
 	call print_board
 	call check_winner
 endp print_5
 proc print_6
 	inc drewing
-	mov [game_draw+12] , bl
+	mov [game_draw+13] , bl
 	mov [output_2 + 2] , bl
 	call print_board
 	call check_winner
 endp print_6
 proc print_7
 	inc drewing
-	mov [game_draw+16] , bl
+	mov [game_draw+18] , bl
 	mov [output_3] , bl
 	call print_board
 	call check_winner
@@ -263,7 +252,6 @@ mov dx,offset rules
 int 21h
 mov ah, 0h
 int 16h
-
 mov ah, 9h
 mov dx,offset game_num
 int 21h

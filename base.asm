@@ -4,7 +4,7 @@ stack 100h
 DATASEG
 turnwho db 0
 rules   db "Welcome to the Tic Tac Toe game", 13, 10
-		db "each player in turn will choose a slot marked with the numbers", 13, 10
+		db "each player in his turn will choose a slot marked with the numbers", 13, 10
 		db " 1-9 as you will see shortly",13,10
 		db "this is a game for two players ", 13, 10
 		db "the winner is the one who makes three in a row ", 13, 10
@@ -14,10 +14,11 @@ rules   db "Welcome to the Tic Tac Toe game", 13, 10
 		db "then you recive the massege" ,13,10
 		db " ,press any key to start" ,13,10,'$'
 drewing db 0
+type_ db ?
 output_1 db '1','2','3'
 output_2 db '4','5','6'
 output_3 db '7','8','9'
-youwin   db 'you won!!!!',13,10,'$'
+youwin   db ' ',' you won!!!!',13,10,'$'
 youwin1   db 'press any key to leave',13,10,'$'
 noone   db 'drew,press any key to leave',13,10,'$'
 the_chosen_one db 0
@@ -34,6 +35,9 @@ check_iffull_1 db 0
 check_iffull_3 db 0
 check_iffull_4 db 0
 check_iffull_5 db 0
+
+
+
 check_iffull_6 db 0
 check_iffull_7 db 0
 check_iffull_8 db 0
@@ -59,6 +63,8 @@ proc finish_game
 	jmp exit
 endp finish_game
 proc congrats_you_win
+	mov bl,[type_]
+	mov [youwin] ,bl
 	mov dx, offset youwin
 	mov ah,9h
 	int 21h
@@ -77,6 +83,7 @@ check_loop:
 	jne check_x
 	mov al, [output_3 + bx]
 	cmp  al , 'o' 
+	jne check_x
 	jmp congrats_you_win
 check_x:
 	mov al, [output_1 + bx]
@@ -100,12 +107,12 @@ check_diagonal:
 	jne check_diagonal_2
 	jmp congrats_you_win
 check_diagonal_2:
-mov al, [output_1 + 2]
-cmp al, [output_2 + 1]
-jne check_rows_1
-cmp al, [output_3 + 0]
-jne check_rows_1
-jmp congrats_you_win
+	mov al, [output_1 + 2]
+	cmp al, [output_2 + 1]
+	jne check_rows_1
+	cmp al, [output_3 + 0]
+	jne check_rows_1
+	jmp congrats_you_win
 endp check_winner
 proc check_rows_1
 	mov ch, [output_1]
@@ -144,18 +151,23 @@ proc check_drew
 	jmp drew_massege
 endp check_drew
 proc start_game
-call turn
-L3:call printing_number
+	call turn
+L3:
+	call printing_number
 endp start_game
 proc turn
-cmp [turnwho] , 0
-jg L2
-inc turnwho
-mov bl ,'x'
-jmp L3
-L2:dec turnwho
-mov bl ,'o'
-jmp L3
+	cmp [turnwho] , 0
+	jg L2
+	inc turnwho
+	mov bl ,'x'
+	mov [type_] ,'x'
+	jmp L3
+L2:
+	dec turnwho
+	mov bl ,'o'
+	mov [type_] ,'o'
+
+	jmp L3
 endp turn
 proc print_2
 	cmp [check_iffull_2] ,0
